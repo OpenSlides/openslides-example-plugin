@@ -1,0 +1,3 @@
+include AUTHORS LICENSE README.rst requirements.txt
+graft openslides_example_plugin
+recursive-exclude openslides_example_plugin *.pyc

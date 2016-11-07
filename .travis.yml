@@ -1,0 +1,18 @@
+language: python
+sudo: false
+cache:
+  directories:
+    - $HOME/virtualenv/python$TRAVIS_PYTHON_VERSION/lib/python$TRAVIS_PYTHON_VERSION/site-packages/
+    - $HOME/virtualenv/python$TRAVIS_PYTHON_VERSION/bin/
+python:
+  - "3.4"
+  - "3.5"
+install:
+  - "pip install --upgrade setuptools"
+  - "pip install https://github.com/OpenSlides/OpenSlides/archive/8c07884746b4e84562076755110b811a26026695.zip"
+  # - "pip install --upgrade --requirement requirements.txt"
+  - "pip install flake8==3.0.4 isort==4.2.5"
+script:
+  - "flake8 openslides_example_plugin tests"
+  - "isort --check-only --recursive openslides_example_plugin tests"
+  - "PYTHONPATH=.:$PYTHONPATH DJANGO_SETTINGS_MODULE='tests.settings' openslides test"
