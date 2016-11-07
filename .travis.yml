@@ -9,7 +9,7 @@ python:
   - "3.5"
 install:
   - "pip install --upgrade setuptools"
-  - "pip install https://github.com/OpenSlides/OpenSlides/archive/8c07884746b4e84562076755110b811a26026695.zip"
+  - "pip install https://github.com/OpenSlides/OpenSlides/archive/2824a6b3d278d23e39cc37965db8b5eaa147126b.zip"
   # - "pip install --upgrade --requirement requirements.txt"
   - "pip install flake8==3.0.4 isort==4.2.5"
 script:

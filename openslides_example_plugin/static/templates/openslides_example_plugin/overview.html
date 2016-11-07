@@ -1,0 +1,18 @@
+<div ng-controller="OpenSlidesExamplePluginOverviewCtrl as Ctrl">
+  <div class="header">
+    <div class="title">
+      <h1>Example Plugin</h1>
+    </div>
+  </div>
+
+  <div class="details">
+    <p>
+      <a class="btn btn-default btn-sm"
+         ng-class="{ 'btn-primary': Ctrl.isProjectedSimpleWelcomeSlide() }"
+         ng-click="Ctrl.projectSimpleWelcomeSlide()">
+        <i class="fa fa-video-camera fa-lg"></i>
+        Project simple welcome slide
+      </a>
+    </p>
+  </div>
+</div>
