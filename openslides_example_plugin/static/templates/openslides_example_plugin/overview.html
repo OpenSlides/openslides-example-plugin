@@ -1,18 +1,43 @@
 <div ng-controller="OpenSlidesExamplePluginOverviewCtrl as Ctrl">
   <div class="header">
     <div class="title">
-      <h1>Example Plugin</h1>
+      <h1 translate>Example Plugin</h1>
     </div>
   </div>
-
   <div class="details">
     <p>
-      <a class="btn btn-default btn-sm"
-         ng-class="{ 'btn-primary': Ctrl.isProjectedSimpleWelcomeSlide() }"
-         ng-click="Ctrl.projectSimpleWelcomeSlide()">
-        <i class="fa fa-video-camera fa-lg"></i>
-        Project simple welcome slide
-      </a>
+      <span class="btn-group"
+        style="min-width:54px;"
+        uib-dropdown
+        uib-tooltip="{{ 'Projector' | translate }} {{ Ctrl.isProjectedSimpleWelcomeSlide() }}"
+        tooltip-enable="Ctrl.isProjectedSimpleWelcomeSlide() > 0"
+        os-perms="core.can_manage_projector">
+        <button type="button"
+          class="btn btn-default btn-sm"
+          ng-click="Ctrl.projectSimpleWelcomeSlide(Ctrl.defaultProjectorSimpleWelcomeSlideId)"
+          ng-class="{ 'btn-primary': Ctrl.isProjectedSimpleWelcomeSlide() === Ctrl.defaultProjectorSimpleWelcomeSlideId }">
+          <i class="fa fa-video-camera"></i>
+          <translate>Project simple welcome slide</translate>
+        </button>
+        <button type="button"
+          class="btn btn-default btn-sm slimDropDown"
+          uib-dropdown-toggle
+          ng-class="{ 'btn-primary': (Ctrl.isProjectedSimpleWelcomeSlide() > 0 && Ctrl.isProjectedSimpleWelcomeSlide() !== Ctrl.defaultProjectorSimpleWelcomeSlideId) }"
+          ng-if="Ctrl.projectors.length > 1">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu"
+          ng-if="Ctrl.projectors.length > 1">
+          <li role="menuitem" ng-repeat="projector in Ctrl.projectors">
+            <a href="" ng-click="Ctrl.projectSimpleWelcomeSlide(projector.id)"
+              ng-class="{ 'projected': (Ctrl.isProjectedSimpleWelcomeSlide() === projector.id) }">
+              <i class="fa fa-video-camera" ng-show="Ctrl.isProjectedSimpleWelcomeSlide() === projector.id"></i>
+              {{ projector.name }}
+              <span ng-if="defaultProjectorSimpleWelcomeSlideId === projector.id">(<translate>Default</translate>)</span>
+            </a>
+          </li>
+        </ul>
+      </span>
     </p>
   </div>
 </div>
