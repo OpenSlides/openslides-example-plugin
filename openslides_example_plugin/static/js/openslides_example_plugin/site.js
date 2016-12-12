@@ -36,7 +36,9 @@ angular.module('OpenSlidesApp.openslides_example_plugin.site', ['OpenSlidesApp.o
     function ($scope, $http, Projector) {
         var Ctrl = this;
 
-        // Bind projectors to controller.
+        /*
+         * Bind projectors to controller.
+         */
         $scope.$watch(
             function () {
                 return Projector.lastModified();
@@ -46,18 +48,23 @@ angular.module('OpenSlidesApp.openslides_example_plugin.site', ['OpenSlidesApp.o
             }
         );
 
-        // Default projector for the simple welcome slide. Projector 1 is hard coded.
+        /*
+         * Default projector for the simple welcome slide. Projector 1 is hard
+         * coded here but you can use custom projection defaults instead.
+         */
         Ctrl.defaultProjectorSimpleWelcomeSlideId = 1;
 
-        // Project simple welcome slide.
+        /*
+         * Project simple welcome slide.
+         */
         Ctrl.projectSimpleWelcomeSlide = function (projectorId) {
-            var isProjectedSimpleWelcomeSlideId = Ctrl.isProjectedSimpleWelcomeSlide();
-            if (isProjectedSimpleWelcomeSlideId > 0) {
-                // Deactivate slide on current projector.
-                $http.post('/rest/core/projector/' + isProjectedSimpleWelcomeSlideId + '/clear_elements/');
-            }
-            if (isProjectedSimpleWelcomeSlideId != projectorId) {
-                // Activate slide on the new projector.
+            // If the simple welcome slide is already projected, remove it from all projectors.
+            var isProjectedSimpleWelcomeSlideIds = Ctrl.isProjectedSimpleWelcomeSlide();
+            _.forEach(isProjectedSimpleWelcomeSlideIds, function (id) {
+                $http.post('/rest/core/projector/' + id + '/clear_elements/');
+            });
+            // Show the simple welcome slide if it was not projected before on the given projector.
+            if (_.indexOf(isProjectedSimpleWelcomeSlideIds, projectorId) === -1) {
                 $http.post(
                     '/rest/core/projector/' + projectorId + '/prune_elements/',
                     [{name: 'openslides_example_plugin/simple_welcome_slide'}]
@@ -65,18 +72,20 @@ angular.module('OpenSlidesApp.openslides_example_plugin.site', ['OpenSlidesApp.o
             }
         };
 
-        // Check if simple welcome slide is projected anywhere.
+        /*
+         * Check if simple welcome slide is projected anywhere.
+         */
         Ctrl.isProjectedSimpleWelcomeSlide = function () {
             var predicate = function (element) {
                 return element.name === 'openslides_example_plugin/simple_welcome_slide';
             };
-            var projectorId = 0;
+            var isProjectedIds = [];
             Ctrl.projectors.forEach(function (projector) {
                 if (typeof _.findKey(projector.elements, predicate) === 'string') {
-                    projectorId = projector.id;
+                    isProjectedIds.push(projector.id);
                 }
             });
-            return projectorId;
+            return isProjectedIds;
         };
     }
 ]);
