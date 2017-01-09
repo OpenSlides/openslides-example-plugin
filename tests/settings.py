@@ -6,6 +6,7 @@ import os
 
 from openslides.global_settings import *  # noqa
 
+
 # Path to the directory for user specific data files
 
 OPENSLIDES_USER_DATA_PATH = os.path.realpath(os.path.dirname(os.path.abspath(__file__)))
@@ -69,6 +70,7 @@ SEARCH_INDEX = 'ram'
 # Special settings only for testing
 
 TEST_RUNNER = 'openslides.utils.test.OpenSlidesDiscoverRunner'
+
 
 # Use a faster password hasher.
 

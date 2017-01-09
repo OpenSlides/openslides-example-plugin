@@ -7,12 +7,13 @@ cache:
 python:
   - "3.4"
   - "3.5"
+  - "3.6"
 install:
-  - "pip install --upgrade setuptools"
-  - "pip install https://github.com/OpenSlides/OpenSlides/archive/2824a6b3d278d23e39cc37965db8b5eaa147126b.zip"
-  # - "pip install --upgrade --requirement requirements.txt"
-  - "pip install flake8==3.0.4 isort==4.2.5"
+  - pip install --upgrade setuptools
+  - pip install "openslides>=2.1b1,<2.2"
+  # - pip install --upgrade --requirement requirements.txt
+  - pip install flake8==3.0.4 isort==4.2.5
 script:
-  - "flake8 openslides_example_plugin tests"
-  - "isort --check-only --recursive openslides_example_plugin tests"
-  - "PYTHONPATH=.:$PYTHONPATH DJANGO_SETTINGS_MODULE='tests.settings' openslides test"
+  - flake8 openslides_example_plugin tests
+  - isort --check-only --recursive openslides_example_plugin tests
+  - PYTHONPATH=.:$PYTHONPATH DJANGO_SETTINGS_MODULE='tests.settings' openslides test
