@@ -1,0 +1,45 @@
+<div ng-controller="OpenSlidesExamplePluginOverviewCtrl as Ctrl">
+  <div class="header">
+    <div class="title">
+      <h1 translate>Example Plugin</h1>
+    </div>
+  </div>
+  <div class="details">
+    <div class="btn-group"
+      uib-dropdown
+      uib-tooltip="{{ 'Projector' | translate }} {{ Ctrl.isProjectedSimpleWelcomeSlide()[0] || '' }}"
+      tooltip-enable="Ctrl.isProjectedSimpleWelcomeSlide().length"
+      os-perms="core.can_manage_projector">
+      <button id="projectSimpleWelcomeSlideButton"
+        type="button"
+        class="btn btn-default btn-sm"
+        ng-click="Ctrl.projectSimpleWelcomeSlide(Ctrl.defaultProjectorSimpleWelcomeSlideId)"
+        ng-class="{ 'btn-primary': inArray(Ctrl.isProjectedSimpleWelcomeSlide(), Ctrl.defaultProjectorSimpleWelcomeSlideId) }">
+        <i class="fa fa-video-camera"></i>
+        <translate>Project simple welcome slide</translate>
+      </button>
+      <button type="button"
+        class="btn btn-default btn-sm slimDropDown"
+        uib-dropdown-toggle
+        ng-if="Ctrl.projectors.length > 1"
+        ng-class="{ 'btn-primary': (Ctrl.isProjectedSimpleWelcomeSlide().length && !inArray(Ctrl.isProjectedSimpleWelcomeSlide(), Ctrl.defaultProjectorSimpleWelcomeSlideId)) }">
+        <span class="caret"></span>
+        <span class="sr-only" translate>Project on another projector</span>
+      </button>
+      <ul class="dropdown-menu"
+        uib-dropdown-menu
+        role="menu"
+        aria-labelledby="projectSimpleWelcomeSlideButton"
+        ng-if="Ctrl.projectors.length > 1">
+        <li role="menuitem" ng-repeat="projector in Ctrl.projectors">
+          <a href="" ng-click="Ctrl.projectSimpleWelcomeSlide(projector.id)"
+            ng-class="{ 'projected': inArray(Ctrl.isProjectedSimpleWelcomeSlide(), projector.id) }">
+            <i class="fa fa-video-camera" ng-show="inArray(Ctrl.isProjectedSimpleWelcomeSlide(), projector.id)"></i>
+            {{ projector.name }}
+            <span ng-if="defaultProjectorSimpleWelcomeSlideId === projector.id">(<translate>Default</translate>)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
